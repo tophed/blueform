@@ -1,0 +1,9 @@
+from os import environ
+
+TMP_DIR = environ["TMP_DIR"]
+TF_EXE = environ["TF_EXE"]
+PLAN_BUCKET = environ["PLAN_BUCKET"]
+GITHUB_ORG = environ["GITHUB_ORG"]
+GITHUB_APP_ID = environ["GITHUB_APP_ID"]
+GITHUB_APP_INSTALLATION_ID = environ["GITHUB_APP_INSTALLATION_ID"]
+GITHUB_APP_PRIVATE_KEY = environ["GITHUB_APP_PRIVATE_KEY"]

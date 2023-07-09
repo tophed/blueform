@@ -1,0 +1,8 @@
+#! /bin/zsh
+GITHUB_ORG=project-blueform \
+GITHUB_APP_ID=353187 \
+GITHUB_APP_INSTALLATION_ID=39045450 \
+GITHUB_APP_PRIVATE_KEY=$(cat ../.secrets/blueform-configurations.2023-06-27.private-key.pem) \
+STATE_BUCKET=blufrm-user-state \
+flask run --debug
+
