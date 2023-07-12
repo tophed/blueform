@@ -195,8 +195,6 @@ override.tf.json
 terraform.rc
 tfplan
 
-provisioner/app/providers
-
 # Vim
 
 # Swap
@@ -219,4 +217,9 @@ tags
 # Persistent undo
 [._]*.un~
 
+provisioner/bin
 .secrets
+run
+docker_run
+build
+

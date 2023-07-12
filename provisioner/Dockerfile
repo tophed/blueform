@@ -5,10 +5,21 @@ FROM python:3.11-slim
 # Allow statements and log messages to immediately appear in the logs
 ENV PYTHONUNBUFFERED True
 
+ARG OS_ARCH
+
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY app app/
+COPY requirements.txt ./
+COPY bin/${OS_ARCH} bin/
+
+ENV TF_EXE ${APP_HOME}/bin/terraform
+ENV TF_CLI_ARGS -no-color
+ENV TF_CLI_ARGS_init -plugin-dir=${APP_HOME}/bin/providers
+ENV TF_INPUT 0
+ENV TF_IN_AUTOMATION 1
+ENV TMP_DIR /tmp
 
 # Install production dependencies.
 RUN pip install --no-cache-dir -r requirements.txt

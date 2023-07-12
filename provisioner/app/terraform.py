@@ -51,25 +51,15 @@ class Terraform:
         with Popen(cmd, stdout=PIPE, stderr=PIPE, cwd=self.cwd) as process:
             if process.stdout:
                 for line in process.stdout:
-                    if "-json" in args:
-                        parsed = self._write_output(ref, line)
-                        print(parsed['@message'])
-                    else:
-                        print(line.decode())
+                    _handle_output(ref, args, line)
             if process.stderr:
                 for line in process.stderr:
-                    if "-json" in args:
-                        parsed = self._write_output(ref, line)
-                        print(parsed['@message'])
-                    else:
-                        print(line.decode())
+                    _handle_output(ref, args, line)
         if process.returncode != 0:
             raise TerraformError(cmd=cmd)
 
-    def _write_output(self, ref: firestore.DocumentReference, output: bytes):
-        parsed = json.loads(output)
-        ref.collection('output').document().set(parsed)
-        return parsed
+    def _write_output(self, ref: firestore.DocumentReference, output: Any):
+        ref.collection('output').document().set(output)
 
 
 
@@ -78,6 +68,14 @@ class TerraformError(Exception):
         super().__init__(
             f"Error occured when executing Terraform command: {' '.join(cmd)}"
         )
+
+def _handle_output(ref: firestore.DocumentReference, args: tuple[str, ...], output: bytes):
+    if "-json" in args:
+        parsed = json.loads(output)
+        print(parsed['@message'])
+        ref.collection('output').document().set(parsed)
+    else:
+        print(output.decode())
 
 
 def _get_args(

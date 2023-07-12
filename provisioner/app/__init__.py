@@ -102,7 +102,7 @@ def handle_validation_error(e: ValidationError):
 
 @app.errorhandler(HTTPException)
 def handle_http_error(e: HTTPException):
-    return jsonify(message=str(e)), 500
+    return jsonify(message=str(e)), e.response.status_code if e.response else 500
 
 
 @contextmanager
